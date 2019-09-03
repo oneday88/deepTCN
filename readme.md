@@ -5,8 +5,8 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
    * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014
    * Run "R CMD BATCH basicPreprocess.R" to generate "modelData.csv" for model training. 
 ##### Point forecasting
-   * python3 ec_feature_preprocess.py
-   * python3 ECPointHuber.py
+   * python3 electricity/ecPointModel/ec_feature_preprocess.py
+   * python3 electricityecPointModel/ECPointHuber.py
 ##### Probabilistic forecasting
 ### Traffic
 ##### Data preprocessing
