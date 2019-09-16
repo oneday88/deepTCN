@@ -18,3 +18,5 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
 ##### Data preprocessing
 ##### Probabilistic forecasting
 
+### Kind remind
+You can achieve better result if do better data preprocessing like scaling.
