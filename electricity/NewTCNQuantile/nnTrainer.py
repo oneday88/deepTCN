@@ -85,9 +85,8 @@ def nn_trainer(train_mark, model, train_data, test_conv_X, test_data_X,test_data
         train_loss = 0
         k = 0
         train_iter = gluon.data.DataLoader(train_data, batch_size, shuffle=True)
-        for conv_data, data, label,weight in train_iter:
+        for conv_data, data, label in train_iter:
             label = label.as_in_context(ctx)
-            weight = weight.as_in_context(ctx)
             with autograd.record():
                 outputQ10, outputQ50, outputQ90 = model(conv_data, data)
                 lossQ10 = loss10(outputQ10, label)
