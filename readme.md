@@ -8,6 +8,8 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
    * python3 electricity/ecPointModel/ec_feature_preprocess.py
    * python3 electricity/ecPointModel/ECPointHuber.py
 ##### Probabilistic forecasting
+   * python3 electricity/NewTCNQuantile/ec_feature_preprocess.py
+   * python3 electricity/NewTCNQuantile/ec_probabilistic_forecasting.py
 ### Traffic
 ##### Data preprocessing
 ##### Point forecasting
