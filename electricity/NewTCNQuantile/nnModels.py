@@ -139,8 +139,6 @@ class TCN(nn.Block):
         store_embed = self.store_embedding(x_cat[:,:,0])
         embed_concat = nd.concat(
                 store_embed,
-                #self.store_embedding(x_cat[:,:,0]),
-                x_cat[:,:,1:2],
                 self.nYear_embedding(x_cat[:,:,2]),
                 self.nMonth_embedding(x_cat[:,:,3]),
                 self.mDay_embedding(x_cat[:,:,4]),
