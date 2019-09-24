@@ -12,7 +12,11 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
    * python3 electricity/NewTCNQuantile/ec_probabilistic_forecasting.py
 ### Traffic
 ##### Data preprocessing
+   * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/PEMS-SF
+   * Run "R CMD BATCH traffic/basicPreprocess.R" to generate "traffic.csv" for model training.
 ##### Point forecasting
+   * python3 traffic/point/traffic_feature_preprocess.py
+   * python3 traffic/point/traffic_point_forecasting.py
 ##### Probabilistic forecasting
 ### Parts
 ##### Data preprocessing

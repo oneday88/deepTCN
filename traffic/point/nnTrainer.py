@@ -83,7 +83,7 @@ def nn_trainer(train_mark, model, train_data, test_conv_X, test_data_X,test_data
             trainer.step(batch_size,ignore_stale_grad=True)
             train_loss += nd.sum(loss).asscalar()
             k += 1
-            if k*batch_size>n_train*2: 
+            if k*batch_size>n_train*0.2:
                 print('training_data_nb:',k*batch_size)
                 break
         ### The test loss
