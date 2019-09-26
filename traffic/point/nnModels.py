@@ -7,7 +7,7 @@ from mxnet import nd
 from mxnet.gluon import nn
 
 class ResidualTCN(nn.Block):
-    def __init__(self,d, n_residue=24, k=2,  **kwargs):
+    def __init__(self,d, n_residue=34, k=2,  **kwargs):
         super(ResidualTCN, self).__init__(**kwargs)
         self.conv1 = nn.Conv1D(in_channels=n_residue, channels=n_residue, kernel_size=k, dilation=d)
         self.bn1 = nn.BatchNorm()
@@ -63,7 +63,7 @@ class TCN(nn.Block):
         self.TCN= nn.Sequential()
         with self.name_scope():
             ## The embedding part
-            self.id_embedding=nn.Embedding(370,8)
+            self.id_embedding=nn.Embedding(963,18)
             self.nYear_embedding = nn.Embedding(3,2)
             self.nMonth_embedding = nn.Embedding(12,2)
             self.mDay_embedding = nn.Embedding(31,3)
@@ -72,7 +72,7 @@ class TCN(nn.Block):
             ## The output part
             for d in self.dilations:
                 self.TCN.add(ResidualTCN(d=d))
-            self.post_res.add(Residual(xDim=47))
+            self.post_res.add(Residual(xDim=67))
             self.net.add(nn.Dense(64, flatten=False))
             self.net.add(nn.BatchNorm(axis=2))
             self.net.add(nn.Activation(activation='relu'))

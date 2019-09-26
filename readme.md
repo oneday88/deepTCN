@@ -15,8 +15,9 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
    * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/PEMS-SF
    * Run "R CMD BATCH traffic/basicPreprocess.R" to generate "traffic.csv" for model training.
 ##### Point forecasting
-   * python3 traffic/point/traffic_feature_preprocess.py
-   * python3 traffic/point/traffic_point_forecasting.py
+   * python3 traffic/traffic_feature_preprocess.py
+   * python3 traffic/traffic_point_forecasting.py
+
 ##### Probabilistic forecasting
 ### Parts
 ##### Data preprocessing
@@ -28,4 +29,4 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
 KDD 2019 ,Workshop on Mining and Learning from Time Series, 2019
 
 ### Kind remind
-You can achieve better results if you do better data preprocessing like scaling.
+The total project will be refined in the next months. Also, you can achieve better results if you do better data preprocessing like scaling.
