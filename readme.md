@@ -17,6 +17,8 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
    * python3 traffic/traffic_feature_preprocess.py to generate the "tensor_prepare.pkl" for the model training
 ##### Point forecasting
    * python3 traffic/point/traffic_point_forecasting.py
+##### Quantile regression
+   * python3 traffic/quantitle/traffic_quantile_forecasting.py
 
 ##### Probabilistic forecasting
 ### Parts
