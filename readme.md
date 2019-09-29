@@ -18,7 +18,7 @@ Source codes for the paper "probabilistic forecasting with temporal convolutiona
 ##### Point forecasting
    * python3 traffic/point/traffic_point_forecasting.py
 ##### Quantile regression
-   * python3 traffic/quantitle/traffic_quantile_forecasting.py
+   * python3 traffic/quantile/traffic_quantile_forecasting.py
 
 ##### Probabilistic forecasting
 ### Parts
