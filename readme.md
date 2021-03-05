@@ -1,34 +1,29 @@
-### Probabilistic Forecasting with Temporal Convolutional Neural Network
-Source codes for the paper "probabilistic forecasting with temporal convolutional neural network"
-#### Electricity
-##### Data preprocessing
-   * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014
-   * Run "R CMD BATCH electricity/basicPreprocess.R" to generate "modelData.csv" for model training. 
-##### Point forecasting
-   * python3 electricity/ecPointModel/ec_feature_preprocess.py
-   * python3 electricity/ecPointModel/ECPointHuber.py
-##### Probabilistic forecasting
-   * python3 electricity/NewTCNQuantile/ec_feature_preprocess.py
-   * python3 electricity/NewTCNQuantile/ec_probabilistic_forecasting.py
-### Traffic
-##### Data preprocessing
+# Probabilistic Forecasting with Temporal Convolutional Neural Network
+This notebook accompanies the paper, "<a href="https://arxiv.org/abs/1906.04397">Probabilistic Forecasting with Temporal Convolutional Neural Network</a>" by Yitian Chen, Yanfei Kang, Yixiong Chen, and Zizuo Wang published at KDD 2019 ,Workshop on Mining and Learning from Time Series
+
+The notebook provides Mxnet codes for the proposed model on the three public datasets, traffic, electricity and parts.
+
+It is worth noting that we use the same model trained on the data before the first prediction window  rather than retraining the model after updating the forecasts.
+A rolling-window updating forecasts can acheive higher metrics accuracy.
+
+## parameters
+   * dilations (e.g, [1,2,4,8, 16, 32])
+   * Loss function: 
+      * For point forecasting, Try L1,L2 or Huber Loss
+      * For probabilistic forecasting with Quantile regression, you can try quantileLoss with different qunantile point.
+      * Users can also construct your loss function based on different distribution assumptions (e.g., Gaussian likelihood)
+
+
+### Experiments on the traffic dataset
+#### Data preprocessing
    * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/PEMS-SF
    * Run "R CMD BATCH traffic/basicPreprocess.R" to generate "traffic.csv".
-   * python3 traffic/traffic_feature_preprocess.py to generate the "tensor_prepare.pkl" for the model training
-##### Point forecasting
-   * python3 traffic/point/traffic_point_forecasting.py
-##### Quantile regression
-   * python3 traffic/quantile/traffic_quantile_forecasting.py
+   * python3 traffic/trafficModelPrepare.py  to generate the "trafficPrepare.pkl" for the model training.
+#### Point  forecasting 
+   * python3 traffic/trafficPointHuber.py
+#### Probabilistic forecasting based on  quantile regression
+   * python3 traffic/trafficQuantileForecast.py
+#### Probabilistic forecasting based on Gaussian likelihood
+   * python3 traffic/trafficGaussianForecast.py
 
-##### Probabilistic forecasting
-### Parts
-##### Data preprocessing
-##### Probabilistic forecasting
 
-### Reference Paper
-[Probabilistic forecasting with temporal convolutional neural network](https://arxiv.org/abs/1906.04397)
-
-KDD 2019 ,Workshop on Mining and Learning from Time Series, 2019
-
-### Kind remind
-The total project will be refined in the next months. Also, you can achieve better results if you do better data preprocessing like scaling.
