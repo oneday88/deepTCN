@@ -22,10 +22,13 @@ The model training
 from MxnetModels.pointModels import TCN
 from MxnetModels.pointTrainer import nnTrainer
 # The models
+inputSize=168
+outputSize=24
 dilations = [1,2,4,8,16,32]
+nResidue = 35
 actType='relu'
 dropout=0.2
-model1 = TCN(dilations, actType, dropout)
+model1 = TCN(inputSize, outputSize, dilations,nResidue, actType, dropout)
 
 mlpTrainer = nnTrainer(model1, dataCtx, modelCtx)
 

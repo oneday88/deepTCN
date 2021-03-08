@@ -9,7 +9,7 @@ from mxnet import nd
 """
 Load the model data
 """
-with open('trafficPrepare.pkl', 'rb') as f:
+with open('partsPrepare.pkl', 'rb') as f:
     [trainXDt,trainX2Dt, trainYDt,testXDt, testX2Dt,testYDt] = pickle.load(f)
 
 # cpu or gpu
@@ -22,10 +22,10 @@ The model training
 from MxnetModels.quantileModels import TCN
 from MxnetModels.quantileTrainer import nnTrainer
 # The models
-inputSize=168
-outputSize=24
-dilations = [1,2,4,8,16,32]
-nResidue = 35
+inputSize=12
+outputSize=12
+dilations = [1,2,2]
+nResidue = 24
 actType='relu'
 dropout=0.2
 model1 = TCN(inputSize, outputSize, dilations,nResidue, actType, dropout)

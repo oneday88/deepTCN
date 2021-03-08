@@ -9,7 +9,7 @@ from mxnet import nd
 """
 Load the model data
 """
-with open('trafficPrepare.pkl', 'rb') as f:
+with open('partsPrepare.pkl', 'rb') as f:
     [trainXDt,trainX2Dt, trainYDt,testXDt, testX2Dt,testYDt] = pickle.load(f)
 
 # cpu or gpu
@@ -19,16 +19,18 @@ dataCtx = mx.gpu() if mx.context.num_gpus() else mx.cpu()
 """
 The model training
 """
-from MxnetModels.quantileModels import TCN
-from MxnetModels.quantileTrainer import nnTrainer
+from MxnetModels.gaussianModels import TCN
+from MxnetModels.gaussianTrainer import nnTrainer
 # The models
-inputSize=168
-outputSize=24
-dilations = [1,2,4,8,16,32]
-nResidue = 35
+# The models
+inputSize=12
+outputSize=12
+dilations = [1,2,2]
+nResidue = 24
 actType='relu'
 dropout=0.2
 model1 = TCN(inputSize, outputSize, dilations,nResidue, actType, dropout)
+
 
 mlpTrainer = nnTrainer(model1, dataCtx, modelCtx)
 
@@ -41,14 +43,15 @@ epochs = 100
 esEpochs = 10 #
 evalCriteria = 'min'
 
-batchSize = 256
-learningRate = 0.005
-sampleRate = 0.6
+batchSize = 64
+learningRate = 0.01
+sampleRate = 0.3
 
 initializer = mx.init.Xavier(magnitude=2.24)
+initializer = mx.initializer.MSRAPrelu()
 optimizer = 'adam';
-
 lossFunc = HuberLoss() #Which is robust to outlier
+
 paramsList = {'epochs': epochs, 'esEpochs': esEpochs, 'evalCriteria': evalCriteria,
         'batchSize': batchSize, 'learningRate': learningRate, 'sampleRate': sampleRate, 
                     'initializer': initializer, 'optimizer':optimizer, 'lossFunc': lossFunc}

@@ -77,7 +77,7 @@ class futureResidual(nn.HybridBlock):
 The core model
 """
 class TCN(nn.Block):
-    def __init__(self,inputSize=168, outputSize=24 ,dilations=[1,2,4,8,16,20,32],nResidue=35, actType='relu' ,dropout=0.2, **kwargs):
+    def __init__(self, inputSize=12, outputSize=12, dilations=[1,2,4], nResidue=23, actType='relu' ,dropout=0.2, **kwargs):
         super(TCN, self).__init__(**kwargs)
         self.inputSize = inputSize
         self.outputSize = outputSize
@@ -88,10 +88,7 @@ class TCN(nn.Block):
             # The embedding of auxiliary variables
             self.stationEmbedding = nn.Embedding(963,18)
             self.nYearEmbedding = nn.Embedding(3,2)
-            self.nMonthEmbedding = nn.Embedding(12,2)
-            self.mDayEmbedding = nn.Embedding(31,5)
-            self.wdayEmbedding = nn.Embedding(7,3)
-            self.nHourEmbedding = nn.Embedding(24,4)
+            self.nMonthEmbedding = nn.Embedding(12,3)
             for d in self.dilations:
                 self.encoder.add(ResidualTCN(d=d, n_residue=nResidue))
             self.decoder = (futureResidual(xDim=64))
@@ -111,9 +108,6 @@ class TCN(nn.Block):
                 self.stationEmbedding(xCat[:,:,0]),
                 self.nYearEmbedding(xCat[:,:,1]),
                 self.nMonthEmbedding(xCat[:,:,2]),
-                self.mDayEmbedding(xCat[:,:,3]),
-                self.wdayEmbedding(xCat[:,:,4]),
-                self.nHourEmbedding(xCat[:,:,5]),
                              dim=2)
         # The training and testing
         embedTrain = embedConcat[:,0:self.inputSize,:]

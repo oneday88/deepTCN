@@ -45,8 +45,10 @@ class futureResidual(nn.HybridBlock):
 The core model
 """
 class TCN(nn.Block):
-    def __init__(self, dilations=[1,2,4,8,16,20,32],actType='relu' ,dropout=0.2, **kwargs):
+    def __init__(self,inputSize=168, outputSize=24 ,dilations=[1,2,4,8,16,20,32],nResidue=35, actType='relu' ,dropout=0.2, **kwargs):
         super(TCN, self).__init__(**kwargs)
+        self.inputSize = inputSize
+        self.outputSize = outputSize
         self.dilations = dilations
         self.encoder = nn.Sequential()
         self.outputLayer= nn.Sequential()
@@ -59,7 +61,7 @@ class TCN(nn.Block):
             self.wdayEmbedding = nn.Embedding(7,3)
             self.nHourEmbedding = nn.Embedding(24,4)
             for d in self.dilations:
-                self.encoder.add(ResidualTCN(d=d))
+                self.encoder.add(ResidualTCN(d=d, n_residue=nResidue))
             self.decoder = (futureResidual(xDim=64))
             self.outputLayer.add(nn.Dense(64, flatten=False))
             self.outputLayer.add(nn.BatchNorm(axis=2))
@@ -93,7 +95,7 @@ class TCN(nn.Block):
         output = inputSeries
         output = nd.transpose(output, axes=(0,2,1))
         output = nd.reshape(output,(output.shape[0], 1,-1))
-        output = nd.broadcast_axis(output, axis=1, size=24)
+        output = nd.broadcast_axis(output, axis=1, size=self.outputSize)
         # the decoder
         output=self.outputLayer(self.decoder(output, embedTest))
         #output = nd.sum_axis(output, axis=2)

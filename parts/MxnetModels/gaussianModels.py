@@ -1,48 +1,16 @@
+import math
 import mxnet as mx
 from mxnet import gluon,nd,ndarray
 from mxnet.gluon import nn
 
-
 """
-Construct the quantile loss for the probabilistic forecasting
+Construct the Gaussian loss for MLE
 """
-def _reshape_like(F, x, y):
-    """Reshapes x to the same shape as y."""
-    return x.reshape(y.shape) if F is ndarray else F.reshape_like(x, y)
+def GaussianLoss(mu, sigma, y, softZero=1e-4):
+    logGaussian =  -nd.log(2*math.pi*(sigma**2)+softZero)/2 -(y- mu)**2/(2*(sigma**2)+softZero)
+    res = -nd.sum(logGaussian, axis= 0)
+    return nd.mean(res)
 
-def _apply_weighting(F, loss, weight=None, sample_weight=None):
-    if sample_weight is not None:
-        loss = F.broadcast_mul(loss, sample_weight)
-
-    if weight is not None:
-        assert isinstance(weight, numeric_types), "weight must be a number"
-        loss = loss * weight
-    return loss
-
-class Loss(nn.HybridBlock):
-    def __init__(self, weight, batch_axis, **kwargs):
-        super(Loss, self).__init__(**kwargs)
-        self._weight = weight
-        self._batch_axis = batch_axis
-
-    def __repr__(self):
-        s = '{name}(batch_axis={_batch_axis}, w={_weight})'
-        return s.format(name=self.__class__.__name__, **self.__dict__)
-
-    def hybrid_forward(self, F, x, *args, **kwargs):
-        raise NotImplementedError
-
-class QuantileLoss(Loss):
-    def __init__(self,quantile_alpha=0.5, weight=None, batch_axis=1, **kwargs):
-        super(QuantileLoss, self).__init__(weight, batch_axis, **kwargs)
-        self.quantile_alpha = quantile_alpha
-
-    def hybrid_forward(self, F, pred, label, sample_weight=None):
-        label = _reshape_like(F, label, pred)
-        I = pred<=label
-        loss = self.quantile_alpha*(label-pred)*I+(1-self.quantile_alpha)*(pred-label)*(1-I)
-        loss = _apply_weighting(F, loss, self._weight, sample_weight)
-        return F.sum(loss, axis=self._batch_axis)
 
 """
 The residual blocks of the TCN model: current apply ResidualTCN and futureResidual blocks, users can try other modules
@@ -77,7 +45,7 @@ class futureResidual(nn.HybridBlock):
 The core model
 """
 class TCN(nn.Block):
-    def __init__(self,inputSize=168, outputSize=24 ,dilations=[1,2,4,8,16,20,32],nResidue=35, actType='relu' ,dropout=0.2, **kwargs):
+    def __init__( self, inputSize=12, outputSize=12, dilations=[1,2,4], nResidue=23, actType='relu' ,dropout=0.2, **kwargs):
         super(TCN, self).__init__(**kwargs)
         self.inputSize = inputSize
         self.outputSize = outputSize
@@ -88,10 +56,7 @@ class TCN(nn.Block):
             # The embedding of auxiliary variables
             self.stationEmbedding = nn.Embedding(963,18)
             self.nYearEmbedding = nn.Embedding(3,2)
-            self.nMonthEmbedding = nn.Embedding(12,2)
-            self.mDayEmbedding = nn.Embedding(31,5)
-            self.wdayEmbedding = nn.Embedding(7,3)
-            self.nHourEmbedding = nn.Embedding(24,4)
+            self.nMonthEmbedding = nn.Embedding(12,3)
             for d in self.dilations:
                 self.encoder.add(ResidualTCN(d=d, n_residue=nResidue))
             self.decoder = (futureResidual(xDim=64))
@@ -101,9 +66,8 @@ class TCN(nn.Block):
             #self.outputLayer.add(nn.Activation(activation=actType))
             self.outputLayer.add(nn.Dropout(dropout))
             #self.outputLayer.add(nn.Dense(1,activation='relu',flatten=False))
-            self.Q10 = nn.Dense(1,activation='relu', flatten=False)
-            self.Q50 = nn.Dense(1,activation='relu', flatten=False)
-            self.Q90 = nn.Dense(1,activation='relu', flatten=False)
+            self.mu = nn.Dense(1, flatten=False, activation='relu')
+            self.sigma = nn.Dense(1, flatten=False, activation='softrelu')
     
     def forward(self, xNum, xCat):
         # embed the auxiliary variables
@@ -111,9 +75,6 @@ class TCN(nn.Block):
                 self.stationEmbedding(xCat[:,:,0]),
                 self.nYearEmbedding(xCat[:,:,1]),
                 self.nMonthEmbedding(xCat[:,:,2]),
-                self.mDayEmbedding(xCat[:,:,3]),
-                self.wdayEmbedding(xCat[:,:,4]),
-                self.nHourEmbedding(xCat[:,:,5]),
                              dim=2)
         # The training and testing
         embedTrain = embedConcat[:,0:self.inputSize,:]
@@ -132,8 +93,6 @@ class TCN(nn.Block):
         # the decoder
         output=self.outputLayer(self.decoder(output, embedTest))
         #output = nd.sum_axis(output, axis=2)
-        # The quantile outputs
-        outputQ10 = nd.sum_axis(self.Q10(output),  axis=2)
-        outputQ50 = nd.sum_axis(self.Q50(output),  axis=2)
-        outputQ90 = nd.sum_axis(self.Q90(output),  axis=2)
-        return outputQ10, outputQ50, outputQ90
+        mu = nd.sum_axis(self.mu(output),  axis=2)
+        sigma = nd.sum_axis(self.sigma(output),  axis=2)
+        return mu, sigma
