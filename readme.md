@@ -1,5 +1,5 @@
 # Probabilistic Forecasting with Temporal Convolutional Neural Network
-This notebook accompanies the paper, "<a href="https://arxiv.org/abs/1906.04397">Probabilistic Forecasting with Temporal Convolutional Neural Network</a>" by Yitian Chen, Yanfei Kang, Yixiong Chen, and Zizuo Wang published at KDD 2019 ,Workshop on Mining and Learning from Time Series
+This notebook accompanies the paper, "<a href="https://arxiv.org/abs/1906.04397"><Probabilistic Forecasting with Temporal Convolutional Neural Network></a>" by Yitian Chen, Yanfei Kang, Yixiong Chen, and Zizhuo Wang published at KDD 2019 ,Workshop on Mining and Learning from Time Series
 
 The notebook provides Mxnet codes for the proposed model on the three public datasets, traffic, electricity and parts.
 
@@ -8,7 +8,7 @@ A rolling-window updating forecasts can acheive higher metrics accuracy.
 
 ## Parameters of deepTCN models
    * inputSize: the length of input sequences. The 'inputSize' should be compatible with the preprocessing codes.
-   * outputSize: the length of output sequences.  The 'inputSize' should be compatible with the preprocessing codes.
+   * outputSize: the length of output sequences.  The 'ouputSize' should be compatible with the preprocessing codes. E.g., in the traffic datasets, we choose inputSize=168, outputSize=24.
    * dilations: dilations of causal convolution nets, this mainly based on the inputSize,  e.g, [1,2,4,8, 16, 32] for the traffic dataset in my implementation.
    * nResidue: we assume the input is a tensor of "batchSize, length, feature-dimension". nResidue is the number of feature-dimensions of the final input.
 
