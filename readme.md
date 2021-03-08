@@ -1,5 +1,5 @@
 # Probabilistic Forecasting with Temporal Convolutional Neural Network
-This notebook accompanies the paper, "<a href="https://arxiv.org/abs/1906.04397"><Probabilistic Forecasting with Temporal Convolutional Neural Network></a>" by Yitian Chen, Yanfei Kang, Yixiong Chen, and Zizhuo Wang published at KDD 2019 ,Workshop on Mining and Learning from Time Series
+This notebook accompanies the paper, "<a href="https://arxiv.org/abs/1906.04397">Probabilistic Forecasting with Temporal Convolutional Neural Network</a>" by Yitian Chen, Yanfei Kang, Yixiong Chen, and Zizhuo Wang published at KDD 2019 ,Workshop on Mining and Learning from Time Series
 
 The notebook provides Mxnet codes for the proposed model on the three public datasets, traffic, electricity and parts.
 
