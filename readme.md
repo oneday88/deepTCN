@@ -31,7 +31,7 @@ A rolling-window updating forecasts can acheive higher metrics accuracy.
 ##### Probabilistic forecasting based on Gaussian likelihood
    * python3 traffic/trafficGaussianForecast.py
 
-#### Electricity
+### Experiments on the ec dataset
 ##### Data preprocessing
    * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014
    * Run "R CMD BATCH ec/basicPreprocess.R" to generate "modelData.csv"
