@@ -23,13 +23,25 @@ A rolling-window updating forecasts can acheive higher metrics accuracy.
 ##### Data preprocessing
    * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/PEMS-SF
    * Run "R CMD BATCH traffic/basicPreprocess.R" to generate "traffic.csv".
-   * python3 traffic/trafficModelPrepare.py  to generate the "trafficPrepare.pkl" for the model training.
+   * python3 traffic/trafficModelPrepare.py  to generate the "trafficPrepare.pkl" for  model training.
 ##### Point  forecasting 
    * python3 traffic/trafficPointHuber.py
-##### Probabilistic forecasting based on  quantile regression
+##### Probabilistic forecasting based on quantile regression
    * python3 traffic/trafficQuantileForecast.py
 ##### Probabilistic forecasting based on Gaussian likelihood
    * python3 traffic/trafficGaussianForecast.py
+
+#### Electricity
+##### Data preprocessing
+   * Download the dataset from UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014
+   * Run "R CMD BATCH ec/basicPreprocess.R" to generate "modelData.csv"
+   * python3 ec/ecModelPrepare.py to generate "ecLogPrepare.pkl" for model training, we do logarithmic transformation.
+##### Point forecasting
+   * python3 ec/ecPointHuber.py
+##### Probabilistic forecasting based on  quantile regression
+   * python3 ec/ecQuantileForecast.py
+##### Probabilistic forecasting based on Gaussian likelihood
+   * python3 ec/ecGaussianForecast.py
 
 ### Experiments on the parts dataset
 ##### Data preprocessing
