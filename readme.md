@@ -1,10 +1,12 @@
 # Probabilistic Forecasting with Temporal Convolutional Neural Network
 This notebook accompanies the paper, "<a href="https://arxiv.org/abs/1906.04397">Probabilistic Forecasting with Temporal Convolutional Neural Network</a>" by Yitian Chen, Yanfei Kang, Yixiong Chen, and Zizhuo Wang published at KDD 2019 ,Workshop on Mining and Learning from Time Series
 
-The notebook provides Mxnet codes for the proposed model on the three public datasets, traffic, electricity and parts.
+The repository provides Mxnet codes for the proposed model on the three public datasets, traffic, electricity and parts.
 
 It is worth noting that we use the same model trained on the data before the first prediction window  rather than retraining the model after updating the forecasts.
 A rolling-window updating forecasts can acheive higher metrics accuracy.
+
+If you have any questions, please feel free to contact by issues or yitianartsky@gmail.com.
 
 ## Parameters of deepTCN models
    * inputSize: the length of input sequences. The 'inputSize' should be compatible with the preprocessing codes.
@@ -51,6 +53,4 @@ A rolling-window updating forecasts can acheive higher metrics accuracy.
    * python3 parts/partsQuantileForecast.py
 ##### Probabilistic forecasting based on Gaussian likelihood
    * python3 parts/partsGaussianForecast.py
-
-
 
